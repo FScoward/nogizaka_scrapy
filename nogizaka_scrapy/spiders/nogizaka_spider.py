@@ -15,19 +15,13 @@ class NogizakaSpider(CrawlSpider):
 
     # parseだと何故か再帰的に探索しない
     def parse_item(self, response):
-        # self.logger.info('================= url: %s', response.url)
-        # self.logger.info('================= xpath: %s', response.xpath('//span[@class="entrytitle"]/text()').extract())
         item = NogizakaScrapyItem()
+        item['author'] = response.xpath('//span[@class="author"]/text()').extract()
         item['entry_title'] = response.xpath('//span[@class="entrytitle"]/text()').extract()
         entry_body = response.xpath('//div[@class="entrybody"]/div/text()')
-        # self.logger.info('================= body: %s', entry_body.extract())
         entry_body_array = []
         for body in entry_body:
             entry_body_array.append(body.extract())
-        item['entry_body'] = ''.join(entry_body_array)
+        item['entry_body'] = [x for x in entry_body_array if x != '\xa0']
         self.logger.info('========================= %s', item['entry_body'])
-
-        # filename = response.url.replace(":", "_").replace("/", "_").replace("?", "_") + '.html'
-        # with open(filename, 'wb') as f:
-        #     f.write(response.body)
         return item
