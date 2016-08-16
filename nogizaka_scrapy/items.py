@@ -14,3 +14,4 @@ class NogizakaScrapyItem(scrapy.Item):
     entry_title = scrapy.Field()
     entry_body = scrapy.Field()
     author = scrapy.Field()
+    date = scrapy.Field()
