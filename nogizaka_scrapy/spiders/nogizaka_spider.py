@@ -24,6 +24,7 @@ class NogizakaSpider(CrawlSpider):
         entry_body_array = []
         for body in entry_body:
             entry_body_array.append(body.extract())
-        item['entry_body'] = [x for x in entry_body_array if x != '\xa0']
+        # item['entry_body'] = [x for x in entry_body_array if x != '\xa0']
+        item['entry_body'] = ''.join(entry_body_array)
         item['date'] = response.xpath('//div[@class="entrybottom"]/text()').extract()
         return item
